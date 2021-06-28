@@ -10,6 +10,8 @@ export default function App() {
     if (e.key === "Enter") {
       const data = await fetchWeather(query);
 
+      console.log(data);
+
       setWeather(data);
       setQuery("");
     }
@@ -20,7 +22,7 @@ export default function App() {
       <input
         type="text"
         className="search"
-        placeholder="Search City..."
+        placeholder="Enter City or Zip Code..."
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         onKeyPress={search}
@@ -35,7 +37,7 @@ export default function App() {
           </h2>
           <div className="city__temp">
             {Math.round(weather.main.temp)}
-            <sup>&deg;c</sup>
+            <sup>&deg;F</sup>
           </div>
           <div className="info">
             <img
