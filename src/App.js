@@ -5,16 +5,22 @@ import "./App.css";
 export default function App() {
   const [query, setQuery] = useState("");
   const [weather, setWeather] = useState({});
+  const [temp, setTemp] = useState("");
+
+  const [isActive, setIsActive] = useState(false);
+  const [activeBtn, setActiveBtn] = useState("");
 
   const search = async (e) => {
     if (e.key === "Enter") {
       const data = await fetchWeather(query);
 
-      console.log(data);
-
       setWeather(data);
       setQuery("");
     }
+  };
+
+  const convertToCelcius = (farenheit) => {
+    return Math.round((farenheit - 32) * (5 / 9));
   };
 
   return (
@@ -31,13 +37,33 @@ export default function App() {
       {weather.main && (
         <div className="city">
           <h2 className="city__name">
-            <span>
-              {weather.name}, {weather.sys.country}
-            </span>
+            {weather.name}, {weather.sys.country}
           </h2>
           <div className="city__temp">
-            {Math.round(weather.main.temp)}
-            <sup>&deg;F</sup>
+            {!temp ? Math.round(weather.main.temp) : temp}
+            <sup>
+              <button
+                id="farenheit"
+                className={isActive ? "farenheit-btn active" : "farenheit-btn"}
+                onClick={() => {
+                  setTemp(Math.round(weather.main.temp));
+                  setIsActive(true);
+                }}
+              >
+                &deg;F
+              </button>
+              <span>|</span>
+              <button
+                id="celcius"
+                className={isActive ? "celcius-btn active" : "celcius-btn"}
+                onClick={() => {
+                  setTemp(convertToCelcius(weather.main.temp));
+                  setIsActive(true);
+                }}
+              >
+                &deg;C
+              </button>
+            </sup>
           </div>
           <div className="info">
             <img

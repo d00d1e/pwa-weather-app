@@ -7,5 +7,7 @@ export const fetchWeather = async (query) => {
     `${URL}?q=${query}&appid=${process.env.REACT_APP_API_KEY}&units=imperial`
   );
 
+  console.log(data);
+
   return data;
 };
